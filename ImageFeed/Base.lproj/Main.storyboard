@@ -235,11 +235,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ZS-nQ-Ie8">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="7ZS-nQ-Ie8">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="yvU-XM-Acg">
-                                        <rect key="frame" x="14" y="69" width="386" height="758"/>
+                                        <rect key="frame" x="0.0" y="56" width="406" height="798"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -249,16 +249,19 @@
                                     <outlet property="delegate" destination="hfh-sA-qMm" id="8Jx-pl-HmJ"/>
                                 </connections>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0t-wi-Jz9">
-                                <rect key="frame" x="169" y="762" width="75" height="3"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0t-wi-Jz9">
+                                <rect key="frame" x="182" y="795" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="2Vt-4N-Cau"/>
                                     <constraint firstAttribute="height" constant="50" id="Pc4-9e-ou1"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="Sharing" title="Button"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Sharing"/>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="hfh-sA-qMm" eventType="touchUpInside" id="KjA-SN-Gmt"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VjE-u3-q1K">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VjE-u3-q1K" userLabel="ButtonBack">
                                 <rect key="frame" x="8" y="56" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="TS3-9s-WUz"/>
@@ -277,7 +280,9 @@
                             <constraint firstItem="VjE-u3-q1K" firstAttribute="leading" secondItem="mIg-FM-0Or" secondAttribute="leading" constant="8" id="3ih-lX-cww"/>
                             <constraint firstItem="7ZS-nQ-Ie8" firstAttribute="leading" secondItem="mIg-FM-0Or" secondAttribute="leading" id="9HR-gK-cIa"/>
                             <constraint firstItem="mIg-FM-0Or" firstAttribute="trailing" secondItem="7ZS-nQ-Ie8" secondAttribute="trailing" id="Med-Jr-kXK"/>
+                            <constraint firstItem="mIg-FM-0Or" firstAttribute="bottom" secondItem="l0t-wi-Jz9" secondAttribute="bottom" constant="17" id="U91-LZ-lBL"/>
                             <constraint firstItem="VjE-u3-q1K" firstAttribute="top" secondItem="mIg-FM-0Or" secondAttribute="top" constant="8" id="eIS-W1-LHE"/>
+                            <constraint firstItem="l0t-wi-Jz9" firstAttribute="centerX" secondItem="mIg-FM-0Or" secondAttribute="centerX" id="i3d-aT-0Fs"/>
                             <constraint firstAttribute="bottom" secondItem="7ZS-nQ-Ie8" secondAttribute="bottom" id="n7E-cK-OFp"/>
                             <constraint firstItem="7ZS-nQ-Ie8" firstAttribute="top" secondItem="lNK-HO-EAV" secondAttribute="top" id="pGG-ub-Oh6"/>
                         </constraints>
@@ -298,7 +303,7 @@
         <image name="Active" width="44" height="44"/>
         <image name="Backward" width="24" height="24"/>
         <image name="Exit" width="44" height="44"/>
-        <image name="Sharing" width="50.5" height="50"/>
+        <image name="Sharing" width="51" height="50"/>
         <image name="avatar" width="350" height="350"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>

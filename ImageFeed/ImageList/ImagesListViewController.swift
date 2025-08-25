@@ -21,8 +21,6 @@ final class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
     }
-    
- 
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == showSingleImageSegueIdentifier {
@@ -36,13 +34,11 @@ final class ImagesListViewController: UIViewController {
 
                 let image = UIImage(named: photosName[indexPath.row])
                 _ = viewController.view // CRASH FIXED !?
-                viewController.imageView.image = image
+                viewController.image = image
             } else {
                 super.prepare(for: segue, sender: sender)
             }
-        } 
-    
-
+        }
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -67,7 +63,6 @@ extension ImagesListViewController: UITableViewDataSource {
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
-
 }
 
 extension ImagesListViewController {
@@ -98,7 +93,4 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
-
-    
 }
