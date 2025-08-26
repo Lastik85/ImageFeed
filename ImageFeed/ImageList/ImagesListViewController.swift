@@ -1,9 +1,11 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
+    
+    // MARK: - IBOutlets
     @IBOutlet private weak var tableView: UITableView!
 
+    // MARK: - Private Properties
     private let photosName = (0..<20).map { String($0) }
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
 
@@ -14,6 +16,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(
@@ -44,6 +47,7 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
         -> Int
@@ -68,6 +72,7 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Cell Configuration
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
@@ -83,6 +88,7 @@ extension ImagesListViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,

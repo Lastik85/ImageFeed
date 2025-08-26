@@ -9,23 +9,26 @@ final class ProfileViewController: UIViewController {
     private let loginNameLable = UILabel()
     private let textLabel = UILabel()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupImageView()
-        setupLogoutButton()
+        setupAvatarImageView()
+        setupExitButton()
         setupNameLabel()
-        setupNicknameLabel()
+        setupLoginNameLable()
         setupTextLabel()
         setupConstraints()
     }
     
+    // MARK: - View Setup
     private func setupView() {
         view.contentMode = .scaleToFill
         view.backgroundColor = UIColor(named: "YP Black (iOS)")
     }
     
-    private func setupImageView() {
+    // MARK: - AvatarImageView Setup
+    private func setupAvatarImageView() {
         photoImage = UIImage(named: "avatar")!
         avatarImageView = UIImageView(image: photoImage)
         avatarImageView.layer.masksToBounds = false
@@ -35,7 +38,8 @@ final class ProfileViewController: UIViewController {
         view.addSubview(avatarImageView)
     }
     
-    private func setupLogoutButton() {
+    // MARK: - ExitButton Setup
+    private func setupExitButton() {
         exitButton = UIButton.systemButton(
             with: UIImage(named: "Logout")!,
             target: self,
@@ -47,9 +51,11 @@ final class ProfileViewController: UIViewController {
         view.addSubview(exitButton)
     }
     
+    // MARK: - Actions
     @objc
     private func didTapLogoutButton(){}
     
+    // MARK: NameLabel Setup
     private func setupNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "YP White (iOS)")
@@ -59,7 +65,8 @@ final class ProfileViewController: UIViewController {
         view.addSubview(nameLabel)
     }
     
-    private func setupNicknameLabel() {
+    // MARK: - LoginNameLable Setup
+    private func setupLoginNameLable() {
         loginNameLable.text = "@ekaterina_nov"
         loginNameLable.textColor = UIColor(named: "YP Gray (iOS)")
         loginNameLable.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -68,6 +75,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(loginNameLable)
     }
     
+    // MARK: - TextLable Setup
     private func setupTextLabel() {
         textLabel.text = "Hello, world!"
         textLabel.textColor = UIColor(named: "YP White (iOS)")
@@ -77,6 +85,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(textLabel)
     }
     
+    // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
