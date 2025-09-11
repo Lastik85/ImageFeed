@@ -349,18 +349,28 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zTP-Gs-bPq">
+                                <rect key="frame" x="0.0" y="140" width="414" height="4"/>
+                                <color key="progressTintColor" name="YP Black (iOS)"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iN1-Hz-2CU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="aHX-do-Gso" firstAttribute="leading" secondItem="6eY-MT-dh5" secondAttribute="leading" id="03j-n9-FqN"/>
+                            <constraint firstItem="iN1-Hz-2CU" firstAttribute="trailing" secondItem="zTP-Gs-bPq" secondAttribute="trailing" id="1kt-14-1BY"/>
+                            <constraint firstItem="aHX-do-Gso" firstAttribute="leading" secondItem="iN1-Hz-2CU" secondAttribute="leading" id="2Ja-KB-VkA"/>
+                            <constraint firstItem="aHX-do-Gso" firstAttribute="trailing" secondItem="iN1-Hz-2CU" secondAttribute="trailing" id="2Se-Cs-cVk"/>
                             <constraint firstAttribute="trailing" secondItem="aHX-do-Gso" secondAttribute="trailing" id="8G9-vC-G6c"/>
                             <constraint firstItem="aHX-do-Gso" firstAttribute="top" secondItem="iN1-Hz-2CU" secondAttribute="top" id="Ysk-aZ-hLy"/>
+                            <constraint firstItem="zTP-Gs-bPq" firstAttribute="top" secondItem="iN1-Hz-2CU" secondAttribute="top" id="aUh-L5-NsI"/>
                             <constraint firstAttribute="bottom" secondItem="aHX-do-Gso" secondAttribute="bottom" id="l33-bG-l8I"/>
+                            <constraint firstItem="zTP-Gs-bPq" firstAttribute="leading" secondItem="iN1-Hz-2CU" secondAttribute="leading" id="tJs-3B-5Ih"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yki-Y8-FNN"/>
                     <connections>
+                        <outlet property="progressView" destination="zTP-Gs-bPq" id="zWl-y7-GPe"/>
                         <outlet property="webView" destination="aHX-do-Gso" id="haA-cO-AbH"/>
                     </connections>
                 </viewController>
