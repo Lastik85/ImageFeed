@@ -5,7 +5,12 @@ final class OAuth2Service {
     private init() {}
 
     
-    
+    func fetchOAuthToken(code:String){
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            print("Запрос не создан")
+            return
+        }
+    }
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
