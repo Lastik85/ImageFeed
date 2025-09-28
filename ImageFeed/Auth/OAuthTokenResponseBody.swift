@@ -1,5 +1,5 @@
 import UIKit
 
 struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
+    let access_token: String
 }
