@@ -5,7 +5,7 @@ final class OAuth2Service {
     private init() {}
 
     
-    func fetchOAuthToken(code:String){
+    func fetchOAuthToken(code:String, completion: @escaping (Result<String, Error>) -> Void){
         guard let request = makeOAuthTokenRequest(code: code) else {
             print("Запрос не создан")
             return
