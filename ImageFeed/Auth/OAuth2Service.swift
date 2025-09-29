@@ -4,6 +4,7 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     private let tokenStorage = OAuth2TokenStorage()
+    private let decoder = JSONDecoder()
 
     func fetchOAuthToken(code: String,completion: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
@@ -14,8 +15,7 @@ final class OAuth2Service {
             switch result {
             case .success(let data):
                 do {
-                    let decoder = JSONDecoder()
-                    let responseBody = try decoder.decode(OAuthTokenResponseBody.self,from: data)
+                    let responseBody = try self.decoder.decode(OAuthTokenResponseBody.self,from: data)
                     self.tokenStorage.token = responseBody.access_token
                     completion(.success(responseBody.access_token))
                 } catch {
