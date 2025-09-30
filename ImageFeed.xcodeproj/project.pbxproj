@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CB4287752E706A0900BC9774 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4287742E706A0900BC9774 /* WebKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CBC77F9F2E45EB87007C774E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB4287742E706A0900BC9774 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CBC77F852E45EB86007C774E /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC77F9E2E45EB87007C774E /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBC77FA82E45EB87007C774E /* ImageFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB4287752E706A0900BC9774 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,12 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB4287732E706A0900BC9774 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB4287742E706A0900BC9774 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CBC77F7C2E45EB86007C774E = {
 			isa = PBXGroup;
 			children = (
 				CBC77F872E45EB86007C774E /* ImageFeed */,
 				CBC77FA12E45EB87007C774E /* ImageFeedTests */,
 				CBC77FAB2E45EB87007C774E /* ImageFeedUITests */,
+				CB4287732E706A0900BC9774 /* Frameworks */,
 				CBC77F862E45EB86007C774E /* Products */,
 			);
 			sourceTree = "<group>";
