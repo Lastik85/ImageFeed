@@ -5,17 +5,36 @@ final class OAuth2Service {
     private init() {}
     private let tokenStorage = OAuth2TokenStorage()
     private let decoder = JSONDecoder()
+    private var task: URLSessionTask?
+    private var lastCode: String?
 
-    func fetchOAuthToken(code: String,completion: @escaping (Result<String, Error>) -> Void) {
-        guard let request = makeOAuthTokenRequest(code: code) else {
-            print("Запрос не создан")
+    func fetchOAuthToken(
+        code: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+        assert(Thread.isMainThread)
+        guard lastCode != code else {  // 1
+            completion(.failure(AuthServiceError.invalidRequest))
             return
         }
+        
+        task?.cancel()
+        lastCode = code
+        
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            print("Запрос не создан")
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
         let task = URLSession.shared.data(for: request) { result in
             switch result {
             case .success(let data):
                 do {
-                    let responseBody = try self.decoder.decode(OAuthTokenResponseBody.self,from: data)
+                    let responseBody = try self.decoder.decode(
+                        OAuthTokenResponseBody.self,
+                        from: data
+                    )
                     self.tokenStorage.token = responseBody.access_token
                     completion(.success(responseBody.access_token))
                 } catch {
@@ -26,13 +45,20 @@ final class OAuth2Service {
                 print(error)
                 completion(.failure(error))
             }
+            self.task = nil
+            self.lastCode = nil
         }
+        self.task = task
         task.resume()
     }
 
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
+        guard
+            var urlComponents = URLComponents(
+                string: "https://unsplash.com/oauth/token"
+            )
         else {
+            assertionFailure("Failed to create URL")
             return nil
         }
 
