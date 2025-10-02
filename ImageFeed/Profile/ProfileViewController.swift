@@ -8,7 +8,7 @@ final class ProfileViewController: UIViewController {
     private let nameLabel = UILabel()
     private let loginNameLable = UILabel()
     private let textLabel = UILabel()
-    
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     
     // MARK: - Lifecycle
@@ -25,7 +25,16 @@ final class ProfileViewController: UIViewController {
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
         }
-
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
         
     }
     
@@ -114,6 +123,12 @@ final class ProfileViewController: UIViewController {
             textLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             textLabel.topAnchor.constraint(equalTo: loginNameLable.bottomAnchor, constant: 8),
         ])
+    }
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
     }
     
     private func updateProfileDetails(profile: Profile) {

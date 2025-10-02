@@ -60,7 +60,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let access_token):
-                let oauth2TokenStorage = OAuth2TokenStorage()
+                let oauth2TokenStorage = OAuth2TokenStorage.shared
                 oauth2TokenStorage.authtoken = access_token
                 print("Сохранен токен: \(oauth2TokenStorage.authtoken!)")
                 self.delegate?.didAuthenticate(self)
