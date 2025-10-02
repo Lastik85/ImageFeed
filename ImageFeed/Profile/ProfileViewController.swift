@@ -9,9 +9,12 @@ final class ProfileViewController: UIViewController {
     private let loginNameLable = UILabel()
     private let textLabel = UILabel()
     
+    
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupView()
         setupAvatarImageView()
         setupExitButton()
@@ -19,6 +22,11 @@ final class ProfileViewController: UIViewController {
         setupLoginNameLable()
         setupTextLabel()
         setupConstraints()
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
+
+        
     }
     
     // MARK: - View Setup
@@ -106,6 +114,18 @@ final class ProfileViewController: UIViewController {
             textLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             textLabel.topAnchor.constraint(equalTo: loginNameLable.bottomAnchor, constant: 8),
         ])
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel.text = profile.name.isEmpty
+            ? "Имя не указано"
+            : profile.name
+        loginNameLable.text = profile.loginName.isEmpty
+            ? "@неизвестный_пользователь"
+            : profile.loginName
+        textLabel.text = (profile.bio?.isEmpty ?? true)
+            ? "Профиль не заполнен"
+            : profile.bio
     }
     
 }

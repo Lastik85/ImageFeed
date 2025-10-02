@@ -13,7 +13,7 @@ final class OAuth2Service {
         completion: @escaping (Result<String, Error>) -> Void
     ) {
         assert(Thread.isMainThread)
-        guard lastCode != code else {  // 1
+        guard lastCode != code else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
@@ -35,7 +35,8 @@ final class OAuth2Service {
                         OAuthTokenResponseBody.self,
                         from: data
                     )
-                    self.tokenStorage.token = responseBody.access_token
+                    //self.tokenStorage.token = responseBody.access_token
+                    print("Decoder расшифровал токен -  \(responseBody.access_token)")
                     completion(.success(responseBody.access_token))
                 } catch {
                     print("не получилось расшифровать данные")
