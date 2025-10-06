@@ -10,10 +10,10 @@ final class ProfileImageService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void){
+    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
 
-        guard let token = OAuth2TokenStorage.shared.authtoken else {
+        guard let token = OAuth2TokenStorage.shared.token else {
             completion(.failure(NSError(domain: "ProfileImageService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Authorization token missing"])))
             return
         }
@@ -23,28 +23,23 @@ final class ProfileImageService {
             return
         }
 
-        let task = URLSession.shared.data(for: request) { [weak self] result in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             switch result {
-            case .success(let data):
-                guard let self else { return }
+            case .success(let result):
+                guard let self = self else { return }
+                self.avatarURL = result.profileImage.small
+                completion(.success(result.profileImage.small))
 
-                do {
-                    let userResult = try JSONDecoder().decode(UserResult.self, from: data)
-
-                    self.avatarURL = userResult.profileImage.small
-                    completion(.success(userResult.profileImage.small))
-                    NotificationCenter.default
-                        .post(
-                            name: ProfileImageService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": userResult.profileImage.small])
-                } catch {
-                    print(error)
-                }
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": self.avatarURL ?? ""]
+                    )
 
             case .failure(let error):
                 print("[fetchProfileImageURL]: Ошибка запроса: \(error.localizedDescription)")
-                completion(.failure(error)) // Прокидываем ошибку
+                completion(.failure(error)) 
             }
         }
 

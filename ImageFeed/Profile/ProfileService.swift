@@ -10,36 +10,29 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     
 
-    func fetchProfile(_ authtoken: String, completion: @escaping (Result<Profile, Error>) -> Void) {
+    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         task?.cancel()
 
-        guard let request = makeProfileRequest(authtoken: authtoken) else {
-            print("запрос не сформирован")
+        guard let request = makeProfileRequest(token: token) else {
             completion(.failure(URLError(.badURL)))
             return
         }
 
-        let task = urlSession.data(for: request) { [weak self] result in
-            switch result
-            {
-                
-            case .success(let data):
-                do {
-                    let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            switch result {
+            case .success(let result):
+                let profile = Profile(
+                    username: result.username,
+                    name: "\(result.firstName) \(result.lastName)"
+                        .trimmingCharacters(in: .whitespaces), 
+                    loginName: "@\(result.username)",
+                    bio: result.bio
+                )
 
-                    let profile = Profile(
-                        username: profileResult.username,
-                        name: "\(profileResult.firstName) \(profileResult.lastName)",
-                        loginName: "@\(profileResult.username)",
-                        bio: profileResult.bio
-                    )
-                    self?.profile = profile
-                    completion(.success(profile))
-                    
-                } catch {
-                    completion(.failure(error))
-                }
+                self?.profile = profile
+                completion(.success(profile))
             case .failure(let error):
+                print("[fetchProfile]: Ошибка запроса: \(error.localizedDescription)")
                 completion(.failure(error))
             }
             self?.task = nil
@@ -49,17 +42,15 @@ final class ProfileService {
         task.resume()
     }
 
-    private func makeProfileRequest(authtoken: String) -> URLRequest? {
+    private func makeProfileRequest(token: String) -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
-            print ("URL не создать")
+            print ("URL не создан")
             return nil
         }
-        print("приходит \(authtoken)")
-
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(authtoken)", forHTTPHeaderField: "Authorization")
-        print("Bearer \(authtoken), request: \(request)")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print("Bearer \(token), request: \(request)")
         return request
     }
 }

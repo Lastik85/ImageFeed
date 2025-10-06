@@ -9,9 +9,9 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if storage.authtoken != nil {
+        if storage.token != nil {
             switchToTabBarController()
-            fetchProfile(authtoken: storage.authtoken!)
+            fetchProfile(authtoken: storage.token!)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }

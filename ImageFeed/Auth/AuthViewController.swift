@@ -55,18 +55,24 @@ extension AuthViewController: WebViewViewControllerDelegate {
         vc.navigationController?.popViewController(animated: true)
         UIBlockingProgressHUD.show()
 
-        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
+        oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
             UIBlockingProgressHUD.dismiss()
             switch result {
-            case .success(let access_token):
+            case .success(let accessToken):
                 let oauth2TokenStorage = OAuth2TokenStorage.shared
-                oauth2TokenStorage.authtoken = access_token
-                print("Сохранен токен: \(oauth2TokenStorage.authtoken!)")
+                oauth2TokenStorage.token = accessToken
+                print("Сохранен токен: \(oauth2TokenStorage.token!)")
                 self.delegate?.didAuthenticate(self)
 
             case .failure(let error):
-                print(error)
+                print("Ошибка при аутентификации: \(error.localizedDescription)")
+                let alert = UIAlertController(
+                    title: "Что-то пошло не так(",
+                    message: "Не удалось войти в систему",
+                    preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

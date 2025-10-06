@@ -7,48 +7,39 @@ final class OAuth2Service {
     private let decoder = JSONDecoder()
     private var task: URLSessionTask?
     private var lastCode: String?
+    private let urlSession = URLSession.shared
 
-    func fetchOAuthToken(
-        code: String,
-        completion: @escaping (Result<String, Error>) -> Void
-    ) {
+    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         guard lastCode != code else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        
+
         task?.cancel()
         lastCode = code
-        
-        guard let request = makeOAuthTokenRequest(code: code) else {
-            print("Запрос не создан")
+        guard
+            let request = makeOAuthTokenRequest(code: code)
+        else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        
-        let task = URLSession.shared.data(for: request) { result in
+
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let data):
-                do {
-                    let responseBody = try self.decoder.decode(
-                        OAuthTokenResponseBody.self,
-                        from: data
-                    )
-                    //self.tokenStorage.token = responseBody.access_token
-                    print("Decoder расшифровал токен -  \(responseBody.access_token)")
-                    completion(.success(responseBody.access_token))
-                } catch {
-                    print("не получилось расшифровать данные")
-                    completion(.failure(NetworkError.decodingError(error)))
-                }
+            case .success(let oauthTokenResponseBody):
+                let accessToken = oauthTokenResponseBody.accessToken
+                completion(.success(accessToken))
             case .failure(let error):
-                print(error)
                 completion(.failure(error))
             }
+            
             self.task = nil
             self.lastCode = nil
         }
+        
         self.task = task
         task.resume()
     }
