@@ -11,7 +11,7 @@ final class SplashViewController: UIViewController {
 
         if storage.token != nil {
             switchToTabBarController()
-            fetchProfile(authtoken: storage.token!)
+            fetchProfile(token: storage.token!)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -37,9 +37,9 @@ final class SplashViewController: UIViewController {
         window.rootViewController = tabBarController
     }
     
-    private func fetchProfile(authtoken: String) {
+    private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
-        profileService.fetchProfile(authtoken) { [weak self] result in
+        profileService.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
 
             guard let self = self else { return }

@@ -16,11 +16,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        setupAvatarImageView()
-        setupExitButton()
-        setupNameLabel()
-        setupLoginNameLable()
-        setupTextLabel()
+        setupUIElements()
         setupConstraints()
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
@@ -124,6 +120,16 @@ final class ProfileViewController: UIViewController {
             textLabel.topAnchor.constraint(equalTo: loginNameLable.bottomAnchor, constant: 8),
         ])
     }
+    
+    private func setupUIElements(){
+        setupAvatarImageView()
+        setupExitButton()
+        setupNameLabel()
+        setupLoginNameLable()
+        setupTextLabel()
+        setupConstraints()
+    }
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
