@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -14,22 +15,12 @@ final class ProfileViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         setupUIElements()
-        setupConstraints()
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
         }
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
+        setupObserver()
         updateAvatar()
         
     }
@@ -42,12 +33,12 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - AvatarImageView Setup
     private func setupAvatarImageView() {
-        photoImage = UIImage(named: "avatar")!
-        avatarImageView = UIImageView(image: photoImage)
-        avatarImageView.layer.masksToBounds = false
+        avatarImageView = UIImageView()
         avatarImageView.layer.cornerRadius = 35
+        avatarImageView.clipsToBounds = true
         avatarImageView.contentMode = .scaleAspectFit
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.backgroundColor = .clear
         view.addSubview(avatarImageView)
     }
     
@@ -121,6 +112,19 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+    private func setupObserver() {
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                print("+++ isMainThread = \(Thread.isMainThread)")
+                self.updateAvatar()
+            }
+    }
+    
     private func setupUIElements(){
         setupAvatarImageView()
         setupExitButton()
@@ -134,7 +138,15 @@ final class ProfileViewController: UIViewController {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
-        else { return }
+        else {
+            return
+        }
+        
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(
+                    with: url,
+                    placeholder: UIImage(named: "noAvatar")
+                )
     }
     
     private func updateProfileDetails(profile: Profile) {

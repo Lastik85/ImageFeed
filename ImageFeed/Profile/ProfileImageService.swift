@@ -39,15 +39,14 @@ final class ProfileImageService {
 
             case .failure(let error):
                 print("[fetchProfileImageURL]: Ошибка запроса: \(error.localizedDescription)")
-                completion(.failure(error)) 
+                completion(.failure(error))
             }
         }
 
         self.task = task
         task.resume()
     }
-    
-    
+
     private func makeProfileImageRequest(username: String, token: String) -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/users/\(username)") else {
             return nil

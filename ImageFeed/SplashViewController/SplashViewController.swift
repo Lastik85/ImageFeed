@@ -5,12 +5,15 @@ final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let profileService = ProfileService.shared
     private let storage = OAuth2TokenStorage.shared
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if storage.token != nil {
-            switchToTabBarController()
             fetchProfile(token: storage.token!)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
@@ -46,8 +49,9 @@ final class SplashViewController: UIViewController {
 
             switch result {
             case let .success(profile):
-                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
-                self.switchToTabBarController()
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in
+                    self.switchToTabBarController()
+                }
 
             case let .failure(error):
                 print(error)
@@ -77,7 +81,5 @@ extension SplashViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
-        
-        switchToTabBarController()
     }
 }
