@@ -120,7 +120,6 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                print("+++ isMainThread = \(Thread.isMainThread)")
                 self.updateAvatar()
             }
     }
@@ -135,9 +134,8 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
+        guard let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
         else {
             return
         }

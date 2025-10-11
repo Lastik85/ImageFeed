@@ -10,6 +10,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupImageView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -32,7 +33,7 @@ final class SplashViewController: UIViewController {
     }
     
     private func setupImageView() {
-        let imageSplashScreenLogo = UIImage(named: "splashScreenLogo")
+        let imageSplashScreenLogo = UIImage(named: "Vector")
 
         imageView = UIImageView(image: imageSplashScreenLogo)
 

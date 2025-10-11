@@ -48,10 +48,7 @@ final class AuthViewController: UIViewController {
 }
 extension AuthViewController: WebViewViewControllerDelegate {
 
-    func webViewViewController(
-        _ vc: WebViewViewController,
-        didAuthenticateWithCode code: String
-    ) {
+    func webViewViewController( _ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
 
@@ -66,12 +63,17 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.didAuthenticate(self)
 
             case .failure(let error):
-                print("Ошибка при аутентификации: \(error.localizedDescription)")
+                print(
+                    "Ошибка при аутентификации: \(error.localizedDescription)"
+                )
                 let alert = UIAlertController(
                     title: "Что-то пошло не так(",
                     message: "Не удалось войти в систему",
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+                    preferredStyle: .alert
+                )
+                alert.addAction(
+                    UIAlertAction(title: "Ок", style: .default, handler: nil)
+                )
                 self.present(alert, animated: true, completion: nil)
             }
         }

@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  ImageFeed
-//
-//  Created by Андрей Пермяков on 08.08.2025.
-//
-
 import UIKit
 import CoreData
 
@@ -25,11 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        configurationForConnecting connectingSceneSession: UISceneSession,
        options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
-       let sceneConfiguration = UISceneConfiguration(          // 1
+       let sceneConfiguration = UISceneConfiguration(
            name: "Main",
            sessionRole: connectingSceneSession.role
        )
-       sceneConfiguration.delegateClass = SceneDelegate.self   // 2
+       sceneConfiguration.delegateClass = SceneDelegate.self
        return sceneConfiguration
     }
 
