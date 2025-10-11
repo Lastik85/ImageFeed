@@ -16,17 +16,20 @@ extension URLSession {
                     let statusCode = (response as? HTTPURLResponse)?.statusCode
                 {
                     if 200..<300 ~= statusCode {
-                        fulfillCompletionOnTheMainThread(.success(data))  // 3
+                        fulfillCompletionOnTheMainThread(.success(data))
                     } else {
+                        print("[dataTask] invalid status code: \(statusCode)")
                         fulfillCompletionOnTheMainThread(
                             .failure(NetworkError.httpStatusCode(statusCode))
                         )
                     }
                 } else if let error = error {
+                    print("[dataTask]: URLRequestError: \(error)")
                     fulfillCompletionOnTheMainThread(
                         .failure(NetworkError.urlRequestError(error))
                     )
                 } else {
+                    print("[dataTask]: URLSessionError")
                     fulfillCompletionOnTheMainThread(
                         .failure(NetworkError.urlSessionError)
                     )
@@ -51,15 +54,15 @@ extension URLSession {
                     completion(.success(decodedObject))
                 } catch {
                     if let decodingError = error as? DecodingError {
-                        print("Ошибка декодирования: \(decodingError), Данные: \(String(data: data, encoding: .utf8) ?? "")")
+                        print("[URLession.objectTask]: decoding error - \(decodingError), Данные: \(String(data: data, encoding: .utf8) ?? "")")
                     } else {
-                        print("Ошибка декодирования: \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
+                        print("[URLession.objectTask]: decoding error - \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
                     }
                     completion(.failure(error))
                 }
 
             case .failure(let error):
-                print("Ошибка запроса: \(error.localizedDescription)")
+                print("URLession.objectTask]: - \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

@@ -33,6 +33,7 @@ final class OAuth2Service {
                 let accessToken = oauthTokenResponseBody.accessToken
                 completion(.success(accessToken))
             case .failure(let error):
+                print("[OAuth2Service.fetchOAuthToken]  \(error.localizedDescription) [code: \(code)]")
                 completion(.failure(error))
             }
             
@@ -50,7 +51,6 @@ final class OAuth2Service {
                 string: "https://unsplash.com/oauth/token"
             )
         else {
-            assertionFailure("Failed to create URL")
             return nil
         }
 
