@@ -28,12 +28,11 @@ final class TabBarController: UITabBarController {
 
     private func configureTabBar() {
 
-        let ypBlack = UIColor(named: "YP Black (iOS)")
-        tabBar.barTintColor = ypBlack
-        tabBar.backgroundColor = ypBlack
+        tabBar.barTintColor = UIColor(named: "YP Black (iOS)")
+        tabBar.backgroundColor = UIColor(named: "YP Black (iOS)")
         tabBar.isTranslucent = false
-        tabBar.tintColor = .white
-        tabBar.unselectedItemTintColor = .lightGray
+        tabBar.tintColor = UIColor(named: "YP White (iOS)")
+        tabBar.unselectedItemTintColor = UIColor(named: "YP Gray (iOS)")
 
     }
 
