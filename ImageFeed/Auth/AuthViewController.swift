@@ -52,7 +52,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
         _ vc: WebViewViewController,
         didAuthenticateWithCode code: String
     ) {
-        vc.navigationController?.popViewController(animated: true)
+        vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
 
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
