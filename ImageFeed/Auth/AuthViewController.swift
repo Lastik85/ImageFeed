@@ -63,9 +63,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.didAuthenticate(self)
 
             case .failure(let error):
-                print(
-                    "Ошибка при аутентификации: \(error.localizedDescription)"
-                )
+                print("Ошибка при аутентификации: \(error.localizedDescription)")
                 let alert = UIAlertController(
                     title: "Что-то пошло не так(",
                     message: "Не удалось войти в систему",

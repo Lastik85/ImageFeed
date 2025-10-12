@@ -54,15 +54,15 @@ extension URLSession {
                     completion(.success(decodedObject))
                 } catch {
                     if let decodingError = error as? DecodingError {
-                        print("[URLession.objectTask]: decoding error - \(decodingError), Данные: \(String(data: data, encoding: .utf8) ?? "")")
+                        print("[URLSession.objectTask]: decoding error - \(decodingError), Данные: \(String(data: data, encoding: .utf8) ?? "")")
                     } else {
-                        print("[URLession.objectTask]: decoding error - \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
+                        print("[URLSession.objectTask]: decoding error - \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
                     }
                     completion(.failure(error))
                 }
 
             case .failure(let error):
-                print("URLession.objectTask]: - \(error.localizedDescription)")
+                print("URSLession.objectTask]: - \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

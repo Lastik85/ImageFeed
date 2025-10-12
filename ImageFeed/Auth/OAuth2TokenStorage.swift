@@ -1,7 +1,7 @@
-import UIKit
+import Foundation
 import SwiftKeychainWrapper
 
-class OAuth2TokenStorage{
+final class OAuth2TokenStorage{
     
     static let shared = OAuth2TokenStorage()
     private init() {}

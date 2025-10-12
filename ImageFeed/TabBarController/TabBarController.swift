@@ -11,28 +11,28 @@ final class TabBarController: UITabBarController {
         )
         imagesListViewController.tabBarItem = UITabBarItem(
             title: "",
-            image: UIImage(named: "tab_editorial_active"),
+            image: UIImage(resource: .tabEditorialActive),
             selectedImage: nil
         )
 
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(
             title: "",
-            image: UIImage(named: "tab_profile_active"),
+            image: UIImage(resource: .tabProfileActive),
             selectedImage: nil
         )
         configureTabBar()
-        self.viewControllers = [imagesListViewController, profileViewController]
+        viewControllers = [imagesListViewController, profileViewController]
 
     }
 
     private func configureTabBar() {
 
-        tabBar.barTintColor = UIColor(named: "YP Black (iOS)")
-        tabBar.backgroundColor = UIColor(named: "YP Black (iOS)")
+        tabBar.barTintColor = UIColor(resource: .ypBlackIOS)
+        tabBar.backgroundColor = UIColor(resource: .ypBlackIOS)
         tabBar.isTranslucent = false
-        tabBar.tintColor = UIColor(named: "YP White (iOS)")
-        tabBar.unselectedItemTintColor = UIColor(named: "YP Gray (iOS)")
+        tabBar.tintColor = UIColor(resource: .ypWhiteIOS)
+        tabBar.unselectedItemTintColor = UIColor(resource: .ypGrayIOS)
 
     }
 

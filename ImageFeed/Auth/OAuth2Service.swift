@@ -1,6 +1,7 @@
 import UIKit
 
 final class OAuth2Service {
+    
     static let shared = OAuth2Service()
     private init() {}
     private let tokenStorage = OAuth2TokenStorage.shared
@@ -18,8 +19,7 @@ final class OAuth2Service {
 
         task?.cancel()
         lastCode = code
-        guard
-            let request = makeOAuthTokenRequest(code: code)
+        guard let request = makeOAuthTokenRequest(code: code)
         else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
