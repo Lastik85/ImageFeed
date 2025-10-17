@@ -16,7 +16,7 @@ final class ImagesListService {
 
     private(set) var photos: [Photo] = []
 
-    func fetchPhotosNextPage() {
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
       
         guard task == nil else {
             print("the page is still loading")
@@ -27,6 +27,7 @@ final class ImagesListService {
 
         guard let request = makePhotoRequest(page: nextPage, perPage: perPage) else {
             print("[fetchPhotosNextPage] invalid request")
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
 
@@ -61,13 +62,13 @@ final class ImagesListService {
                     self?.lastLoadedPage = nextPage
                     NotificationCenter.default.post(
                         name: ImagesListService.didChangeNotification,
-                        object: self
-                    )
+                        object: self)
+                    completion(.success(photos))
                 }
                 
             case .failure(let error):
                 print("Ошибка загрузки: \(error.localizedDescription)")
-                
+                completion(.failure(error))
             }
         }
         
