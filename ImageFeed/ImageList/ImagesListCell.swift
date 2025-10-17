@@ -8,10 +8,8 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var dataLabel: UILabel!
     
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        
-//        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
-//        fullsizeImageView.kf.cancelDownloadTask()
-//    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
 }
