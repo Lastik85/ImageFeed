@@ -65,7 +65,9 @@ extension ImagesListViewController {
     func configureCell(for cell: ImagesListCell, with indexPath: IndexPath) {
 
         let url = URL(string: imagesListService.photos[indexPath.row].thumbImageURL)
-        cell.cellImage.kf.setImage(with: url)
+        
+        cell.cellImage.kf.indicatorType = .activity
+        cell.cellImage.kf.setImage(with: url, placeholder: UIImage(resource: .stub))
         cell.dataLabel.text = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "Active") : UIImage(named: "No Active")
