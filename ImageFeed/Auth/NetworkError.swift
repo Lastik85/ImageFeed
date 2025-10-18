@@ -15,4 +15,5 @@ enum AuthServiceError: Error {
 enum HttpMethods {
     static let get = "GET"
     static let post = "POST"
+    static let delete = "DELETE"
 }
