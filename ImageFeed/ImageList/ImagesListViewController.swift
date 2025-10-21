@@ -120,7 +120,11 @@ extension ImagesListViewController {
         
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: UIImage(resource: .stub))
-        cell.dataLabel.text = dateFormatter.string(from: Date())
+        if let date = photos[indexPath.row].createdAt {
+            cell.dataLabel.text = dateFormatter.string(from: date)
+        } else {
+            cell.dataLabel.text = ""
+        }
         
         
         let isLiked = indexPath.row % 2 == 0
