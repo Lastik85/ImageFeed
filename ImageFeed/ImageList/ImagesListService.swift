@@ -105,5 +105,9 @@ final class ImagesListService {
 
         return request
     }
+    
+    func resetImages() {
+        photos = []
+    }
 
 }
