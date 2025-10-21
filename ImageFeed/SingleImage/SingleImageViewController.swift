@@ -58,10 +58,10 @@ final class SingleImageViewController: UIViewController {
                 message: "Поробовать еще раз",
                 preferredStyle: .alert
             )
-            let cancelAction = UIAlertAction(title: "Не надо", style: .default)
-            let retryAction = UIAlertAction(title: "Попробовать еще раз", style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: "Не надо", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Повторить", style: .default, handler: { [weak self] _ in
                 self?.loadImage()
-            }
+            }))
             present(alert, animated: true)
         }
 
