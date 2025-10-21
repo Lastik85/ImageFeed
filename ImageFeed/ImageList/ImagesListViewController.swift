@@ -26,6 +26,30 @@ final class ImagesListViewController: UIViewController {
         fetchImage()
        
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showSingleImageSegueIdentifier {
+            guard
+                let viewController = segue.destination
+                    as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            else {
+                assertionFailure("Invalid segue destination")
+                return
+            }
+
+            let image = photos[indexPath.row]
+            viewController.fullImageURL = URL(string: image.fullImageURL)
+            if let cell = tableView.cellForRow(at: indexPath) as?ImagesListCell {
+                viewController.image = cell.cellImage.image
+            } else {
+                viewController.image = nil
+            }
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+    
     private func setupObserver() {
         imagesListServiceObserver = NotificationCenter.default.addObserver(
             forName: ImagesListService.didChangeNotification,
@@ -36,6 +60,7 @@ final class ImagesListViewController: UIViewController {
             self.updateTableViewAnimated()
         }
     }
+    
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
@@ -63,6 +88,7 @@ final class ImagesListViewController: UIViewController {
          }
      }
     }
+    
 
 }
 

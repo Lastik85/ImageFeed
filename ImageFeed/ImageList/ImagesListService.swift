@@ -53,6 +53,7 @@ final class ImagesListService {
                         welcomeDescription: photoResult.description,
                         thumbImageURL: imageURL,
                         largeImageURL: imageURL,
+                        fullImageURL: imageURL,
                         isLiked: photoResult.likedByUser
                     )
                     photos.append(photo)
