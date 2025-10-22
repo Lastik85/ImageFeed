@@ -3,7 +3,6 @@ import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     
- 
     @IBOutlet private weak var tableView: UITableView!
     let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -17,7 +16,6 @@ final class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +59,6 @@ final class ImagesListViewController: UIViewController {
         }
     }
     
-    
     func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
@@ -88,21 +85,16 @@ final class ImagesListViewController: UIViewController {
          }
      }
     }
-    
-
 }
 
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
-        -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)-> Int {
             return photos.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: ImagesListCell.reuseIdentifier,
-            for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
 
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
@@ -116,9 +108,7 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - Cell Configuration
 extension ImagesListViewController {
     func configureCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-
         let url = URL(string: photos[indexPath.row].thumbImageURL)
-        
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: UIImage(resource: .stub))
         if let date = photos[indexPath.row].createdAt {
@@ -149,24 +139,21 @@ extension ImagesListViewController: UITableViewDelegate {
         let photos = photos
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
- 
         let imageWidth = photos[indexPath.row].size.width
         let imageHeight = photos[indexPath.row].size.height
- 
         let scale = imageViewWidth / imageWidth
         let cellHeight = imageHeight * scale + imageInsets.top + imageInsets.bottom
  
         return cellHeight
-     
     }
 }
+
 extension ImagesListViewController: ImagesListCellDelegate {
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
     
       guard let indexPath = tableView.indexPath(for: cell) else { return }
       let photo = photos[indexPath.row]
-      // Покажем лоадер
      UIBlockingProgressHUD.show()
      imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
         switch result {
@@ -179,12 +166,9 @@ extension ImagesListViewController: ImagesListCellDelegate {
             }
             UIBlockingProgressHUD.dismiss()
         case .failure:
-            print("угадай где")
-           // Уберём лоадер
            UIBlockingProgressHUD.dismiss()
-
            }
         }
     }
-    
 }
+

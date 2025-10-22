@@ -5,9 +5,7 @@ final class ImagesListService {
     static let shared = ImagesListService()
     private init(){}
     
-    static let didChangeNotification = Notification.Name(
-        rawValue: "ImagesListServiceDidChange"
-    )
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
 
     var lastLoadedPage: Int?
     private var task: URLSessionTask?
@@ -36,16 +34,13 @@ final class ImagesListService {
             case .success(let photoResults):
                 var photos: [Photo] = []
                 for photoResult in photoResults {
-                    guard
-                        let imageURL = photoResult.urls.regular ??
+                    guard let imageURL = photoResult.urls.regular ??
                             photoResult.urls.full ??
                             photoResult.urls.raw ??
                             photoResult.urls.small ??
                             photoResult.urls.thumb
-                    else { print("[fetchPhotosNextPage] Не удалось получить URL изображения")
-                        continue
+                    else { continue
                     }
-                    
                     let photo = Photo(
                         id: photoResult.id,
                         size: CGSize(width: photoResult.width, height: photoResult.height),
@@ -56,7 +51,6 @@ final class ImagesListService {
                         fullImageURL: imageURL,
                         isLiked: photoResult.likedByUser
                     )
-                    print(photo)
                     photos.append(photo)
                 }
                 DispatchQueue.main.async {
@@ -67,24 +61,22 @@ final class ImagesListService {
                         object: self)
                     completion(.success(photos))
                 }
-                
             case .failure(let error):
-                print("[fetchPhotosNextPage] Ошибка загрузки: \(error.localizedDescription)")
+                print("[fetchPhotosNextPage] Download error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }
-        print(photos.count)
         task.resume()
     }
     
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void){
         assert(Thread.isMainThread)
         guard task == nil else {
-            print("[changeLike] the page is still loading 😩")
+            print("[changeLike] the page is still loading")
             return
         }
         guard let request = makeLikeRequest(photoId: photoId, isLike: isLike) else {
-            print("⚠️invalid request")
+            print("[changeLike] invalid request")
             return
         }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotosResult, Error>) in
@@ -121,7 +113,7 @@ final class ImagesListService {
     func makePhotoRequest(page: Int, perPage: Int) -> URLRequest? {
 
         guard var urlComponents = URLComponents(string: Constants.photosUrl)
-       else {print("[fetchPhotosNextPage] Ошибка при создании запроса: отсутствует URL")
+       else {print("[fetchPhotosNextPage] the URL is missing")
             return nil
         }
         
@@ -130,12 +122,12 @@ final class ImagesListService {
             URLQueryItem(name: "per_page", value: "\(perPage)")
         ]
         guard let token = OAuth2TokenStorage.shared.token else{
-            print("[fetchPhotosNextPage] Ошибка при создании запроса: отсутствует токен")
+            print("[fetchPhotosNextPage] the Token is missing")
             return nil
         }
 
         guard let requestURL = urlComponents.url else {
-            print("[fetchPhotosNextPage] Не удалось сформировать URL")
+            print("[fetchPhotosNextPage] Couldn't generate URL")
             return nil
         }
 
@@ -148,12 +140,12 @@ final class ImagesListService {
     
     func makeLikeRequest(photoId: String, isLike: Bool) -> URLRequest? {
         guard let token = OAuth2TokenStorage.shared.token, let url = URL(string: Constants.photosUrl + "\(photoId)/like") else{
+            print("[makeLikeRequest] the Token or URL is missing")
             return nil
         }
         var request = URLRequest(url: url)
         request.httpMethod = isLike ? HttpMethods.post : HttpMethods.delete
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        print("[makeLikeRequest] ->👀 \(request) 👀 \(request.httpMethod)")
         return request
     }
     

@@ -13,6 +13,7 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
     }
+    
     @IBAction private func likeButtonClicked() {
         delegate?.imageListCellDidTapLike(self)
     }
