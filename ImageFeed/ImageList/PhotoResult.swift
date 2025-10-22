@@ -17,3 +17,7 @@ struct UrlsResult: Decodable {
     let small: String?
     let thumb: String?
 }
+
+struct LikePhotosResult: Decodable {
+    let photo: PhotoResult
+}

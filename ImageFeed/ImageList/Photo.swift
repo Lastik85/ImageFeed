@@ -8,5 +8,5 @@ struct Photo {
     let thumbImageURL: String
     let largeImageURL: String
     let fullImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
 }
