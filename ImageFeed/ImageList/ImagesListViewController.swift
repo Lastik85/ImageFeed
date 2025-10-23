@@ -7,22 +7,22 @@ final class ImagesListViewController: UIViewController {
     let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
     var photos: [Photo] = []
-
+    
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         setupObserver()
-        fetchImage()
-       
+        fetchImages()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -35,7 +35,7 @@ final class ImagesListViewController: UIViewController {
                 assertionFailure("Invalid segue destination")
                 return
             }
-
+            
             let image = photos[indexPath.row]
             viewController.fullImageURL = URL(string: image.fullImageURL)
             if let cell = tableView.cellForRow(at: indexPath) as?ImagesListCell {
@@ -72,30 +72,30 @@ final class ImagesListViewController: UIViewController {
             } completion: { _ in }
         }
     }
-
-    private func fetchImage() {
-     imagesListService.fetchPhotosNextPage() { result in
-         DispatchQueue.main.async {
-             switch result {
-             case .success:
-                 self.tableView.reloadData()
-             case .failure(let error):
-                 print("Ошибка загрузки фото: \(error)")
-             }
-         }
-     }
+    
+    private func fetchImages() {
+        imagesListService.fetchPhotosNextPage() { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    break
+                case .failure(let error):
+                    print("Ошибка загрузки фото: \(error)")
+                }
+            }
+        }
     }
 }
 
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)-> Int {
-            return photos.count
+        return photos.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-
+        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
@@ -118,7 +118,7 @@ extension ImagesListViewController {
         }
         cell.setIsLiked(photos[indexPath.row].isLiked)
         
-
+        
     }
 }
 
@@ -130,7 +130,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView( _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
         let imagesCount = photos.count
         if indexPath.row + 1 == imagesCount {
-            fetchImage()
+            fetchImages()
         }
     }
     
@@ -143,7 +143,7 @@ extension ImagesListViewController: UITableViewDelegate {
         let imageHeight = photos[indexPath.row].size.height
         let scale = imageViewWidth / imageWidth
         let cellHeight = imageHeight * scale + imageInsets.top + imageInsets.bottom
- 
+        
         return cellHeight
     }
 }
@@ -151,23 +151,23 @@ extension ImagesListViewController: UITableViewDelegate {
 extension ImagesListViewController: ImagesListCellDelegate {
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-    
-      guard let indexPath = tableView.indexPath(for: cell) else { return }
-      let photo = photos[indexPath.row]
-     UIBlockingProgressHUD.show()
-     imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
-        switch result {
-        case .success:
-            DispatchQueue.main.async {
-                if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
-                    self.photos[index].isLiked = !photo.isLiked
-                    cell.setIsLiked(!photo.isLiked)
+        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
+                        self.photos[index].isLiked = !photo.isLiked
+                        cell.setIsLiked(!photo.isLiked)
+                    }
                 }
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
             }
-            UIBlockingProgressHUD.dismiss()
-        case .failure:
-           UIBlockingProgressHUD.dismiss()
-           }
         }
     }
 }

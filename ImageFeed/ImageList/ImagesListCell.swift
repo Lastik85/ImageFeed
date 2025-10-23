@@ -2,7 +2,7 @@ import UIKit
 import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
-
+    
     static let reuseIdentifier = "ImagesListCell"
     weak var delegate: ImagesListCellDelegate?
     @IBOutlet weak var likeButton: UIButton!

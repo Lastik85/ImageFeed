@@ -6,29 +6,29 @@ final class ImagesListService {
     private init(){}
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-
-    var lastLoadedPage: Int?
+    
+    private var lastLoadedPage: Int?
     private var task: URLSessionTask?
-    let dateFormatter = ISO8601DateFormatter()
-    let urlSession = URLSession.shared
-
+    private let dateFormatter = ISO8601DateFormatter()
+    private let urlSession = URLSession.shared
+    
     private(set) var photos: [Photo] = []
-
+    
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
-      
+        
         guard task == nil else {
             print("[fetchPhotosNextPage] the page is still loading")
             return
         }
         let nextPage = (lastLoadedPage ?? 0) + 1
         let perPage = 10
-
+        
         guard let request = makePhotoRequest(page: nextPage, perPage: perPage) else {
             print("[fetchPhotosNextPage] invalid request")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
-
+        
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             switch result {
             case .success(let photoResults):
@@ -107,13 +107,13 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
-        
     
-
+    
+    
     func makePhotoRequest(page: Int, perPage: Int) -> URLRequest? {
-
+        
         guard var urlComponents = URLComponents(string: Constants.photosUrl)
-       else {print("[fetchPhotosNextPage] the URL is missing")
+        else {print("[fetchPhotosNextPage] the URL is missing")
             return nil
         }
         
@@ -125,16 +125,16 @@ final class ImagesListService {
             print("[fetchPhotosNextPage] the Token is missing")
             return nil
         }
-
+        
         guard let requestURL = urlComponents.url else {
             print("[fetchPhotosNextPage] Couldn't generate URL")
             return nil
         }
-
+        
         var request = URLRequest(url: requestURL)
         request.httpMethod = HttpMethods.get
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
+        
         return request
     }
     
@@ -152,5 +152,5 @@ final class ImagesListService {
     func resetImages() {
         photos = []
     }
-
+    
 }
