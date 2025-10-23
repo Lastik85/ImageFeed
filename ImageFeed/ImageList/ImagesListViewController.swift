@@ -60,6 +60,7 @@ final class ImagesListViewController: UIViewController {
     }
     
     func updateTableViewAnimated() {
+        
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
