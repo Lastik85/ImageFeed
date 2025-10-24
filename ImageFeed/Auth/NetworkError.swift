@@ -11,3 +11,9 @@ enum NetworkError: Error {
 enum AuthServiceError: Error {
     case invalidRequest
 }
+
+enum HttpMethods {
+    static let get = "GET"
+    static let post = "POST"
+    static let delete = "DELETE"
+}

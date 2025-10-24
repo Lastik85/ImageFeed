@@ -10,6 +10,7 @@ final class ProfileViewController: UIViewController {
     private let loginNameLable = UILabel()
     private let textLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let profileLogoutService = ProfileLogoutService.shared
     
     
     // MARK: - Lifecycle
@@ -57,7 +58,28 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc
-    private func didTapLogoutButton(){}
+    private func didTapLogoutButton(){
+        showExitAllert()
+    }
+    
+    func showExitAllert() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        let noAction = UIAlertAction(title: "Нет", style: .default)
+        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.profileLogoutService.logout()
+            let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+            window?.rootViewController = UINavigationController(rootViewController: SplashViewController())
+            window?.makeKeyAndVisible()
+        }
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+        present(alert, animated: true)
+    }
     
     // MARK: NameLabel Setup
     private func setupNameLabel() {
