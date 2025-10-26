@@ -1,6 +1,7 @@
 import Foundation
 
 final class ProfileViewPresenter: ProfileViewPresenterProtocol {
+    
     weak var view: ProfileViewControllerProtocol?
     
     private let profileService = ProfileService.shared
@@ -8,8 +9,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private let profileLogoutService = ProfileLogoutService.shared
     
     func viewDidLoad() {
-        updateAvatar()
         updateProfile()
+        updateAvatar()
     }
     
     func updateAvatar() {
