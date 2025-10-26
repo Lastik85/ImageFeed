@@ -1,7 +1,9 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    var presenter: ProfileViewPresenterProtocol?
     
     private var photoImage = UIImage()
     private var avatarImageView = UIImageView()
@@ -10,7 +12,7 @@ final class ProfileViewController: UIViewController {
     private let loginNameLable = UILabel()
     private let textLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
-    private let profileLogoutService = ProfileLogoutService.shared
+    //   private let profileLogoutService = ProfileLogoutService.shared
     
     
     // MARK: - Lifecycle
@@ -18,11 +20,8 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupUIElements()
-        if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
-        }
+        presenter?.viewDidLoad()
         setupObserver()
-        updateAvatar()
         
     }
     
@@ -59,7 +58,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func didTapLogoutButton(){
-        showExitAllert()
+        presenter?.didTapLogoutButton()
     }
     
     func showExitAllert() {
@@ -71,7 +70,7 @@ final class ProfileViewController: UIViewController {
         let noAction = UIAlertAction(title: "Нет", style: .default)
         let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
             guard let self else { return }
-            self.profileLogoutService.logout()
+            self.presenter?.logout()
             let window = UIApplication.shared.windows.first { $0.isKeyWindow }
             window?.rootViewController = UINavigationController(rootViewController: SplashViewController())
             window?.makeKeyAndVisible()
@@ -142,11 +141,11 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                self.updateAvatar()
+                self.presenter?.updateAvatar()
             }
     }
     
-    private func setupUIElements(){
+    private func setupUIElements() {
         setupAvatarImageView()
         setupExitButton()
         setupNameLabel()
@@ -155,25 +154,21 @@ final class ProfileViewController: UIViewController {
         setupConstraints()
     }
     
-    private func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.avatarURL,
-                let url = URL(string: profileImageURL)
-        else { return }
-        
+    func updateAvatar(with url: URL) {
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: url, placeholder: UIImage(resource: .noAvatar))
     }
     
-    private func updateProfileDetails(profile: Profile) {
+    func updateProfile(profile: Profile) {
         nameLabel.text = profile.name.isEmpty
-            ? "Имя не указано"
-            : profile.name
+        ? "Имя не указано"
+        : profile.name
         loginNameLable.text = profile.loginName.isEmpty
-            ? "@неизвестный_пользователь"
-            : profile.loginName
+        ? "@неизвестный_пользователь"
+        : profile.loginName
         textLabel.text = (profile.bio?.isEmpty ?? true)
-            ? "Профиль не заполнен"
-            : profile.bio
+        ? "Профиль не заполнен"
+        : profile.bio
     }
     
 }
