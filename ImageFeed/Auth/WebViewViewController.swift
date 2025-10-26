@@ -2,9 +2,8 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
-    var presenter: (any WebViewPresenterProtocol)?
     
-    
+    var presenter: WebViewPresenterProtocol?
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
