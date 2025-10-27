@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol ProfileViewPresenterProtocol: AnyObject {
+protocol ProfileViewPresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     func viewDidLoad()
     func updateAvatar()
