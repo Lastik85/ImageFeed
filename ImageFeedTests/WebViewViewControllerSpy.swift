@@ -1,5 +1,5 @@
-import ImageFeed
-import Foundation
+@testable import ImageFeed
+import XCTest
 
 final class WebViewViewControllerSpy: WebViewViewControllerProtocol{
     var presenter: WebViewPresenterProtocol?
@@ -8,7 +8,7 @@ final class WebViewViewControllerSpy: WebViewViewControllerProtocol{
     func load(request: URLRequest) {
         loadCalled = true
     }
-
+    
     func setProgressValue(_ newValue: Float){
         
     }

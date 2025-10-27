@@ -1,5 +1,5 @@
-import ImageFeed
-import Foundation
+@testable import ImageFeed
+import XCTest
 
 final class WebViewPresenterSpy: WebViewPresenterProtocol {
     var viewDidLoadCalled: Bool = false
@@ -10,7 +10,7 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
     }
     
     func didUpdateProgressValue(_ newValue: Double) {
-    
+        
     }
     
     func code(from url: URL) -> String? {

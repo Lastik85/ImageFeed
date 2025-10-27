@@ -3,7 +3,7 @@ import Foundation
 
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-
+    
     var presenter: ProfileViewPresenterProtocol?
     var showExitAlertCalled: Bool = false
     var updateAvatarCalled: Bool = false
@@ -27,5 +27,5 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
         showExitAlertCalled = true
     }
     
-
+    
 }
