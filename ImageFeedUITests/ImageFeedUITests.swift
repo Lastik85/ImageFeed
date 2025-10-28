@@ -4,7 +4,7 @@ class Image_FeedUITests: XCTestCase {
     private let app = XCUIApplication()
     
     override func setUpWithError() throws {
-        continueAfterFailure = false 
+        continueAfterFailure = false
         app.launch()
     }
     
@@ -12,27 +12,37 @@ class Image_FeedUITests: XCTestCase {
         app.buttons["Войти"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
+        XCTAssertTrue(webView.waitForExistence(timeout: 5),"WebView не загрузилось")
         
-        XCTAssertTrue(webView.waitForExistence(timeout: 30))
-
+        
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5), "Поле не найдено")
         
         loginTextField.tap()
-        loginTextField.typeText("Lastik1985@mail.ru")
+        loginTextField.typeText("______")
         webView.swipeUp()
+        
+        
+        if app.toolbars.buttons["Done"].exists {
+            app.toolbars.buttons["Done"].tap()
+        }
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
-        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5), "Поле password не найдено")
         
         passwordTextField.tap()
-        passwordTextField.typeText("Aa198505")
+        passwordTextField.typeText("______")
         webView.swipeUp()
+        
+        
+        if app.toolbars.buttons["Done"].exists {
+            app.toolbars.buttons["Done"].tap()
+        }
         
         webView.buttons["Login"].tap()
         
         let tablesQuery = app.tables
-        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        let cell = tablesQuery.cells.element(boundBy: 0)
         
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
     }
@@ -41,12 +51,12 @@ class Image_FeedUITests: XCTestCase {
         func testFeed() throws {
             let tablesQuery = app.tables
             
-            let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+            let cell = tablesQuery.cells.element(boundBy: 0)
             cell.swipeUp()
             
             sleep(2)
             
-            let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+            let cellToLike = tablesQuery.cells.element(boundBy: 0)
             
             cellToLike.buttons["LikeButton"].tap()
             cellToLike.buttons["LikeButton"].tap()

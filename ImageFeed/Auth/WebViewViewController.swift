@@ -8,17 +8,20 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     @IBOutlet private var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
-    
+    func vebwiewIdentifier(){
+        webView.accessibilityIdentifier = "UnsplashWebView"
+    }
     private var estimatedProgressObservation: NSKeyValueObservation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.navigationDelegate = self
+        vebwiewIdentifier()
         presenter?.viewDidLoad()
         
     }
     
-   
+    
     @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
