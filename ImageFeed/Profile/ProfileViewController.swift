@@ -48,6 +48,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         exitButton.tintColor = UIColor(resource: .ypRedIOS)
         exitButton.contentMode = .scaleToFill
         exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.accessibilityIdentifier = "exitButton"
         view.addSubview(exitButton)
     }
     
