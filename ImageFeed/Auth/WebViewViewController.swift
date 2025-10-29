@@ -8,7 +8,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     @IBOutlet private var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
-    func vebwiewIdentifier(){
+    func vebWiewIdentifier(){
         webView.accessibilityIdentifier = "UnsplashWebView"
     }
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -16,11 +16,10 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.navigationDelegate = self
-        vebwiewIdentifier()
+        vebWiewIdentifier()
         presenter?.viewDidLoad()
         
     }
-    
     
     @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
@@ -35,10 +34,12 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
                  guard let self = self else { return }
                  presenter?.didUpdateProgressValue(webView.estimatedProgress)
              })
-        
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             presenter?.didUpdateProgressValue(webView.estimatedProgress)
         } else {

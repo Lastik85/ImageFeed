@@ -14,14 +14,12 @@ class Image_FeedUITests: XCTestCase {
         let webView = app.webViews["UnsplashWebView"]
         XCTAssertTrue(webView.waitForExistence(timeout: 5),"WebView не загрузилось")
         
-        
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5), "Поле не найдено")
         
         loginTextField.tap()
-        loginTextField.typeText("______")
+        loginTextField.typeText("Lastik1985@mail.ru")
         webView.swipeUp()
-        
         
         if app.toolbars.buttons["Done"].exists {
             app.toolbars.buttons["Done"].tap()
@@ -31,7 +29,7 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5), "Поле password не найдено")
         
         passwordTextField.tap()
-        passwordTextField.typeText("______")
+        passwordTextField.typeText("Aa198505")
         webView.swipeUp()
         
         
@@ -77,16 +75,15 @@ class Image_FeedUITests: XCTestCase {
     }
     
     func testProfile() throws {
-        func testProfile() throws {
-            sleep(3)
-            app.tabBars.buttons.element(boundBy: 1).tap()
-            
-            XCTAssertTrue(app.staticTexts["Name Lastname"].exists)
-            XCTAssertTrue(app.staticTexts["@username"].exists)
-            
-            app.buttons["exitButton"].tap()
-            
-            app.alerts["Пока, пока"].scrollViews.otherElements.buttons["Да"].tap()
-        }
+        sleep(3)
+        app.tabBars.buttons.element(boundBy: 1).tap()
+        
+        XCTAssertTrue(app.staticTexts["Name Lastname"].exists)
+        XCTAssertTrue(app.staticTexts["@username"].exists)
+        
+        app.buttons["exitButton"].tap()
+        
+        app.alerts["Пока, пока"].scrollViews.otherElements.buttons["Да"].tap()
     }
 }
+

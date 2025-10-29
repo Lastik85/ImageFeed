@@ -32,10 +32,12 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         }
     }
     
-    func didTapLike(for indexPath: IndexPath, with cell: ImagesListCell){
+    func didTapLike(for indexPath: IndexPath, with cell: ImagesListCell) {
         let photo = photos[indexPath.row]
         view?.showProgressHUD()
-        imagesService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [self] result in
+        
+        imagesService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success:
                 DispatchQueue.main.async {
@@ -44,9 +46,9 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
                         cell.setIsLiked(!photo.isLiked)
                     }
                 }
-                view?.hideProgressHUD()
+                self.view?.hideProgressHUD()
             case .failure:
-                view?.hideProgressHUD()
+                self.view?.hideProgressHUD()
             }
         }
     }
