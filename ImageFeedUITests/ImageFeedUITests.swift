@@ -46,7 +46,7 @@ class Image_FeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
-        func testFeed() throws {
+        
             let tablesQuery = app.tables
             
             let cell = tablesQuery.cells.element(boundBy: 0)
@@ -72,7 +72,7 @@ class Image_FeedUITests: XCTestCase {
             let navBackButtonWhiteButton = app.buttons["BackButton"]
             navBackButtonWhiteButton.tap()
         }
-    }
+    
     
     func testProfile() throws {
         sleep(3)
