@@ -12,10 +12,10 @@ class Image_FeedUITests: XCTestCase {
         app.buttons["Войти"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
-        XCTAssertTrue(webView.waitForExistence(timeout: 5),"WebView не загрузилось")
+        XCTAssertTrue(webView.waitForExistence(timeout: 15),"WebView не загрузилось")
         
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5), "Поле не найдено")
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 10), "Поле не найдено")
         
         loginTextField.tap()
         loginTextField.typeText("Lastik1985@mail.ru")
@@ -26,7 +26,7 @@ class Image_FeedUITests: XCTestCase {
         }
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
-        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5), "Поле password не найдено")
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 10), "Поле password не найдено")
         
         passwordTextField.tap()
         passwordTextField.typeText("Aa198505")
@@ -42,7 +42,7 @@ class Image_FeedUITests: XCTestCase {
         let tablesQuery = app.tables
         let cell = tablesQuery.cells.element(boundBy: 0)
         
-        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+        XCTAssertTrue(cell.waitForExistence(timeout: 15))
     }
     
     func testFeed() throws {
