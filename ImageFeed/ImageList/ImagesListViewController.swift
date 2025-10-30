@@ -118,6 +118,8 @@ extension ImagesListViewController: UITableViewDelegate {
         performSegue( withIdentifier: showSingleImageSegueIdentifier, sender: indexPath )
     }
     func tableView( _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
+        let isUITest = ProcessInfo.processInfo.arguments.contains("-uiTest")
+        guard !isUITest else { return }
         presenter?.fetchNewPhotosPage(for: indexPath)
     }
     

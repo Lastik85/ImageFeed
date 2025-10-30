@@ -12,8 +12,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     private let loginNameLabel = UILabel()
     private let textLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -28,7 +27,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         view.contentMode = .scaleToFill
         view.backgroundColor = UIColor(resource: .ypBlackIOS)
     }
-
+    
     private func setupAvatarImageView() {
         avatarImageView = UIImageView()
         avatarImageView.layer.cornerRadius = 35
@@ -38,7 +37,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         avatarImageView.backgroundColor = .clear
         view.addSubview(avatarImageView)
     }
-
+    
     private func setupExitButton() {
         exitButton = UIButton.systemButton(
             with: UIImage(resource: .logout),
@@ -74,8 +73,9 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         alert.addAction(noAction)
         alert.addAction(yesAction)
         present(alert, animated: true)
+        
     }
-
+    
     private func setupNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(resource: .ypWhiteIOS)
@@ -84,7 +84,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
     }
-
+    
     private func setupLoginNameLabel() {
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = UIColor(resource: .ypGrayIOS)
