@@ -13,8 +13,6 @@ class Image_FeedUITests: XCTestCase {
     func testAuth() throws {
         app.buttons["Войти"].tap()
         //нажали кнопку войти
-        let isUITest = ProcessInfo.processInfo.arguments.contains("-uiTest")
-        //проверили режим теста,чтобы остановить загрузку ленты
         let webView = app.webViews["UnsplashWebView"]
         XCTAssertTrue(webView.waitForExistence(timeout: 15),"WebView не загрузилось")
         //ждем появления страницы 15 сек, с VPN у меня туго работает
@@ -22,22 +20,29 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 10), "Поле не найдено")
         //ищем поле логина
         loginTextField.tap()
+        sleep(1)
+        //даем время отреагировать на касание
         loginTextField.typeText("_____")
         webView.swipeUp()
         //вводим логин
         if app.toolbars.buttons["Done"].exists {
             app.toolbars.buttons["Done"].tap()
+            sleep(1)
         }
         //нажали кнопку,если появилась клавиатура
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 10), "Поле password не найдено")
         //нашли поле ввода пароля
         passwordTextField.tap()
+        sleep(1)
+        //даем время отреагировать на касание
         passwordTextField.typeText("_____")
         webView.swipeUp()
         //ввели пароль
         if app.toolbars.buttons["Done"].exists {
             app.toolbars.buttons["Done"].tap()
+            sleep(1)
+            //время на закрытие клавиатуры, чтобы ничего не пропустить из-за анимации
         }
         //убрали клавиатуру,закрывает кнопку логин
         webView.buttons["Login"].tap()
